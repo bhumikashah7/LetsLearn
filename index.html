@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Code. Compete. Conquer. | Competitive Coding for CSE Students</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════ */
+:root{
+  --bg:#fefcf8;
+  --white:#ffffff;
+  --ink:#1c1c2e;
+  --muted:#6b6b8a;
+
+  /* Pastel palette */
+  --peach:#fde8d0;   --peach-d:#f5a96a;
+  --rose:#fce4e4;    --rose-d:#e8788a;
+  --lemon:#fdf6c8;   --lemon-d:#d4a017;
+  --mint:#d4f5e4;    --mint-d:#2db87a;
+  --sky:#d4eafb;     --sky-d:#3b9ad4;
+  --lavender:#e8dff8;--lavender-d:#7c5cbf;
+  --lilac:#f5dff8;   --lilac-d:#b05cbf;
+  --coral:#fde0d0;   --coral-d:#e0622a;
+  --teal:#d0f0f0;    --teal-d:#0d9488;
+  --amber:#fef0c7;   --amber-d:#d97706;
+
+  /* GitHub dark */
+  --gh-bg:#0d1117;
+  --gh-surface:#161b22;
+  --gh-border:#30363d;
+  --gh-text:#e6edf3;
+  --gh-muted:#8b949e;
+  --gh-green:#3fb950;
+
+  --radius:20px;
+  --shadow:0 4px 24px rgba(28,28,46,.08);
+  --shadow-lg:0 12px 48px rgba(28,28,46,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════ */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:rgba(254,252,248,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1.5px solid rgba(28,28,46,.06);
+  height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:900;
+  letter-spacing:-0.3px;
+  white-space:nowrap;
+}
+.nav-logo .blink{color:var(--rose-d);animation:blink 1.2s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.nav-scroll{
+  display:flex;align-items:center;gap:.25rem;
+  overflow-x:auto;scrollbar-width:none;
+  flex:1;margin:0 1rem;
+}
+.nav-scroll::-webkit-scrollbar{display:none}
+.nav-pill{
+  font-size:.7rem;font-weight:600;
+  padding:.32rem .8rem;border-radius:50px;
+  white-space:nowrap;
+  background:transparent;color:var(--muted);
+  transition:all .2s;
+}
+.nav-pill:hover,.nav-pill.active{background:var(--ink);color:white}
+.nav-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;font-weight:600;
+  background:var(--ink);color:white;
+  padding:.3rem .9rem;border-radius:50px;
+  white-space:nowrap;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 1.5rem 3rem;
+  position:relative;overflow:hidden;
+}
+.hero-canvas{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.orb{
+  position:absolute;border-radius:50%;
+  filter:blur(90px);opacity:.6;
+  animation:drift 10s ease-in-out infinite alternate;
+}
+.orb1{width:520px;height:520px;background:var(--peach);top:-160px;left:-160px;animation-delay:0s}
+.orb2{width:420px;height:420px;background:var(--sky);top:40%;right:-120px;animation-delay:3s}
+.orb3{width:350px;height:350px;background:var(--mint);bottom:-80px;left:25%;animation-delay:6s}
+.orb4{width:280px;height:280px;background:var(--lavender);top:15%;left:45%;animation-delay:1.5s}
+@keyframes drift{
+  from{transform:translate(0,0) scale(1)}
+  to{transform:translate(25px,18px) scale(1.06)}
+}
+.hero-chip{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:white;border:1.5px solid rgba(28,28,46,.1);
+  border-radius:50px;padding:.45rem 1.2rem;
+  font-size:.75rem;font-weight:600;color:var(--muted);
+  margin-bottom:1.6rem;
+  animation:slideUp .5s ease both;
+  box-shadow:0 2px 14px rgba(0,0,0,.06);
+}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--mint-d);animation:pulse 1.8s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.6rem,8vw,6.2rem);
+  font-weight:900;line-height:1.0;letter-spacing:-2px;
+  animation:slideUp .6s ease .1s both;
+}
+.hero h1 em{font-style:italic;color:var(--rose-d)}
+.hero h1 .line2{color:var(--sky-d)}
+.hero-sub{
+  font-size:clamp(.95rem,2.5vw,1.2rem);color:var(--muted);
+  max-width:580px;margin:1.2rem auto 0;line-height:1.7;
+  animation:slideUp .6s ease .2s both;
+}
+.hero-prof{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);
+  margin-top:.6rem;animation:slideUp .6s ease .3s both;
+}
+.hero-stats{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+  margin:2.5rem 0 1.5rem;animation:slideUp .6s ease .4s both;
+}
+.stat-box{
+  background:white;border:1.5px solid rgba(28,28,46,.08);
+  border-radius:18px;padding:1.1rem 1.6rem;text-align:center;
+  box-shadow:var(--shadow);
+}
+.stat-box .n{
+  font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+  display:block;line-height:1;
+}
+.stat-box .l{font-size:.68rem;color:var(--muted);font-weight:600;margin-top:.3rem}
+.hero-cta{
+  display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;
+  animation:slideUp .6s ease .5s both;
+}
+.btn-primary{
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;
+  background:var(--ink);color:white;
+  padding:.75rem 1.8rem;border-radius:50px;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,28,46,.25)}
+.btn-ghost{
+  font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;
+  background:white;color:var(--ink);
+  border:2px solid rgba(28,28,46,.15);
+  padding:.75rem 1.8rem;border-radius:50px;
+  transition:transform .2s,border-color .2s;
+}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--ink)}
+.hero-scroll-hint{
+  margin-top:2.5rem;color:var(--muted);font-size:.78rem;
+  animation:slideUp .6s ease .6s both,bounce 2s ease 2s infinite;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════
+   SECTION SYSTEM
+═══════════════════════════════════════════ */
+.section{padding:5rem 1.5rem}
+.section-inner{max-width:1060px;margin:0 auto}
+.section-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:2px;
+  padding:.35rem 1rem;border-radius:50px;margin-bottom:.8rem;
+}
+.section-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  font-weight:900;line-height:1.1;letter-spacing:-0.5px;
+  margin-bottom:.6rem;
+}
+.section-sub{color:var(--muted);font-size:.95rem;max-width:540px;line-height:1.65}
+
+/* ═══════════════════════════════════════════
+   VERTICAL DIVIDER CARDS
+═══════════════════════════════════════════ */
+.vertical-label{
+  display:flex;align-items:center;gap:1rem;
+  margin:3rem 0 1.5rem;
+}
+.v-line{flex:1;height:2px;border-radius:2px}
+.v-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;
+  padding:.4rem 1.2rem;border-radius:50px;white-space:nowrap;
+}
+
+/* ═══════════════════════════════════════════
+   PLATFORM CARD
+═══════════════════════════════════════════ */
+.pcard{
+  background:white;border-radius:var(--radius);
+  border:1.5px solid rgba(28,28,46,.07);
+  overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .3s,box-shadow .3s;
+  margin-bottom:2.5rem;
+}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+
+.pcard-header{
+  display:flex;align-items:center;gap:1.2rem;
+  padding:1.6rem 1.8rem;
+}
+.pcard-icon{
+  width:54px;height:54px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;flex-shrink:0;
+}
+.pcard-title{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;letter-spacing:-.3px}
+.pcard-tagline{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:.15rem}
+.pcard-num{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:2rem;font-weight:600;color:rgba(28,28,46,.07);
+  flex-shrink:0;
+}
+
+/* ═══════════════════════════════════════════
+   VIDEO PLAYER (thumbnail + open YouTube)
+═══════════════════════════════════════════ */
+.video-container{
+  position:relative;padding-top:56.25%;
+  background:#0d0d1a;overflow:hidden;cursor:pointer;
+}
+.video-thumb{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transition:transform .4s,filter .4s;
+  filter:brightness(.75);
+}
+.video-container:hover .video-thumb{transform:scale(1.03);filter:brightness(.55)}
+.video-cover{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1.2rem;
+}
+.play-ring{
+  width:76px;height:76px;border-radius:50%;
+  background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;border:none;color:#cc0000;
+  transition:transform .25s,box-shadow .25s,background .2s;
+  box-shadow:0 0 0 10px rgba(255,255,255,.18),0 8px 32px rgba(0,0,0,.4);
+  pointer-events:none;
+}
+.video-container:hover .play-ring{transform:scale(1.12);box-shadow:0 0 0 16px rgba(255,255,255,.12),0 12px 40px rgba(0,0,0,.5)}
+.video-cover p{
+  color:rgba(255,255,255,.9);font-size:.85rem;font-weight:500;
+  text-align:center;padding:0 1rem;
+  text-shadow:0 1px 6px rgba(0,0,0,.6);
+  pointer-events:none;
+}
+.video-cover .yt-hint{
+  font-size:.72rem;color:rgba(255,255,255,.6);
+  font-family:'JetBrains Mono',monospace;
+  pointer-events:none;
+  display:flex;align-items:center;gap:.3rem;
+}
+.yt-badge{
+  position:absolute;bottom:10px;right:12px;
+  background:rgba(204,0,0,.9);color:white;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;
+  padding:.3rem .75rem;border-radius:4px;letter-spacing:.5px;
+  pointer-events:none;
+  display:flex;align-items:center;gap:.3rem;
+}
+.video-label{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.9rem 1.8rem .4rem;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:2px;
+}
+
+/* ═══════════════════════════════════════════
+   VIDEO MODAL LIGHTBOX
+═══════════════════════════════════════════ */
+.yt-modal{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+.yt-modal.active{display:flex}
+.yt-modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(10,10,20,.88);
+  backdrop-filter:blur(10px);
+  cursor:pointer;
+  animation:fadeInBg .25s ease;
+}
+@keyframes fadeInBg{from{opacity:0}to{opacity:1}}
+.yt-modal-box{
+  position:relative;z-index:1;
+  width:100%;max-width:860px;
+  border-radius:18px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.7);
+  animation:scaleIn .28s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes scaleIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.yt-modal-ratio{
+  position:relative;padding-top:56.25%;
+  background:#000;
+}
+.yt-modal-ratio iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;border:none;
+}
+.yt-modal-close{
+  position:absolute;top:-14px;right:-14px;
+  width:40px;height:40px;border-radius:50%;
+  background:white;color:var(--ink);
+  border:none;font-size:1.1rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:2;
+  box-shadow:0 4px 16px rgba(0,0,0,.35);
+  transition:transform .2s,background .2s;
+}
+.yt-modal-close:hover{transform:scale(1.12);background:#fee2e2}
+
+/* ═══════════════════════════════════════════
+   QUICK CHIPS BELOW VIDEO
+═══════════════════════════════════════════ */
+.quick-bar{padding:1.5rem 1.8rem;border-top:1.5px solid rgba(28,28,46,.05)}
+.quick-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));
+  gap:.9rem;margin-bottom:1.4rem;
+}
+.qchip{
+  display:flex;align-items:flex-start;gap:.7rem;
+  padding:.9rem 1rem;border-radius:14px;
+  border:1.5px solid rgba(28,28,46,.07);
+  transition:background .2s,border-color .2s;
+}
+.qchip:hover{border-color:rgba(28,28,46,.18)}
+.qchip-ico{font-size:1.25rem;flex-shrink:0;margin-top:.05rem}
+.qchip-lbl{font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.qchip-val{font-size:.84rem;font-weight:500;margin-top:.1rem;line-height:1.4}
+
+.action-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.tags-row{display:flex;gap:.4rem;flex-wrap:wrap}
+.tag{
+  font-size:.69rem;font-weight:600;
+  padding:.28rem .75rem;border-radius:50px;
+  border:1.5px solid rgba(28,28,46,.1);
+  background:rgba(28,28,46,.03);
+}
+
+/* ═══════════════════════════════════════════
+   READ MORE TOGGLE
+═══════════════════════════════════════════ */
+.rm-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;
+  padding:.65rem 1.4rem;border-radius:50px;
+  border:2px solid var(--ink);background:transparent;color:var(--ink);
+  letter-spacing:.3px;transition:all .2s;
+}
+.rm-btn:hover{background:var(--ink);color:white}
+.rm-btn .arr{transition:transform .25s;display:inline-block}
+.rm-btn.open .arr{transform:rotate(180deg)}
+
+.expand-box{
+  max-height:0;overflow:hidden;
+  transition:max-height .65s cubic-bezier(.4,0,.2,1);
+  border-top:0px solid rgba(28,28,46,.06);
+}
+.expand-box.open{
+  max-height:2400px;
+  border-top:1.5px solid rgba(28,28,46,.06);
+}
+.expand-inner{
+  padding:2rem 1.8rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+}
+@media(max-width:680px){.expand-inner{grid-template-columns:1fr}}
+
+.exp-block h4{
+  font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;
+  display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem;
+}
+.exp-block p{font-size:.86rem;line-height:1.75;color:var(--muted);text-align:left}
+.exp-block h4{text-align:left}
+.expand-inner{text-align:left}
+.steps{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:.7rem;text-align:left}
+.steps li{
+  counter-increment:s;display:flex;align-items:flex-start;gap:.75rem;
+  font-size:.85rem;color:var(--muted);line-height:1.6;text-align:left;
+}
+.steps li > *,
+.steps li > strong,
+.steps li > em {display:inline}
+.steps li::before{
+  content:counter(s);
+  min-width:26px;height:26px;border-radius:50%;
+  background:var(--ink);color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;
+  flex-shrink:0;margin-top:.1rem;
+}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:.55rem;text-align:left}
+.bullets li{
+  font-size:.85rem;color:var(--muted);line-height:1.6;text-align:left;
+  padding-left:1.3rem;position:relative;
+}
+.bullets li::before{content:'→';position:absolute;left:0;top:.05rem;color:var(--muted);font-size:.75rem}
+.highlight-box{
+  padding:1.1rem 1.2rem;border-radius:14px;font-size:.85rem;line-height:1.75;
+  border-left:3px solid;color:var(--muted);text-align:left;
+}
+/* Force left align on ALL text inside expand panels */
+.expand-inner,
+.expand-inner *{text-align:left !important}
+.opp-chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.opp-chip{
+  font-size:.72rem;font-weight:600;
+  padding:.3rem .8rem;border-radius:50px;
+  border:1.5px solid rgba(28,28,46,.1);
+}
+.full-span{grid-column:1/-1}
+
+/* ═══════════════════════════════════════════
+   WHY SECTION (DARK)
+═══════════════════════════════════════════ */
+.why-section{
+  background:var(--ink);padding:5rem 1.5rem;
+  position:relative;overflow:hidden;
+}
+.why-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.why-inner{max-width:1060px;margin:0 auto;position:relative}
+.why-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:900;
+  color:white;letter-spacing:-1px;text-align:center;margin-bottom:.5rem;
+}
+.why-h em{font-style:italic;color:var(--peach)}
+.why-sub{color:rgba(255,255,255,.45);text-align:center;max-width:500px;margin:0 auto 3rem;font-size:.95rem}
+.why-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem}
+.why-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;padding:1.6rem;
+  transition:background .25s,transform .25s;
+}
+.why-card:hover{background:rgba(255,255,255,.1);transform:translateY(-3px)}
+.why-card .wi{font-size:2rem;margin-bottom:.9rem}
+.why-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:white;margin-bottom:.5rem}
+.why-card p{font-size:.83rem;line-height:1.65;color:rgba(255,255,255,.5)}
+
+/* ═══════════════════════════════════════════
+   GITHUB SPECIAL DARK CARD
+═══════════════════════════════════════════ */
+.gh-card{
+  background:var(--gh-bg);
+  border:1px solid var(--gh-border);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 20px 64px rgba(0,0,0,.4);
+}
+.gh-header{
+  display:flex;align-items:center;gap:1.2rem;
+  padding:1.6rem 1.8rem;
+  border-bottom:1px solid var(--gh-border);
+  background:var(--gh-surface);
+}
+.gh-icon-box{
+  width:54px;height:54px;border-radius:16px;
+  background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;font-size:1.9rem;flex-shrink:0;
+}
+.gh-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--gh-text)}
+.gh-sub{font-size:.8rem;color:var(--gh-muted);font-style:italic;margin-top:.15rem}
+.gh-num{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:2rem;font-weight:600;color:rgba(255,255,255,.06);flex-shrink:0;
+}
+.gh-video-lbl{
+  padding:.9rem 1.8rem .4rem;
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--gh-muted);text-transform:uppercase;letter-spacing:2px;
+}
+.gh-qbar{padding:1.5rem 1.8rem;border-top:1px solid var(--gh-border)}
+.gh-qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.9rem;margin-bottom:1.4rem}
+.gh-chip{
+  padding:.9rem 1rem;border-radius:14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--gh-border);
+  display:flex;align-items:flex-start;gap:.7rem;
+}
+.gh-chip .qchip-lbl{color:var(--gh-muted)}
+.gh-chip .qchip-val{color:rgba(255,255,255,.8)}
+.gh-rm-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;
+  padding:.65rem 1.4rem;border-radius:50px;
+  border:2px solid rgba(255,255,255,.25);background:transparent;color:var(--gh-text);
+  transition:all .2s;
+}
+.gh-rm-btn:hover{background:rgba(255,255,255,.1)}
+.gh-rm-btn .arr{transition:transform .25s;display:inline-block}
+.gh-rm-btn.open .arr{transform:rotate(180deg)}
+.gh-expand-box{
+  max-height:0;overflow:hidden;
+  transition:max-height .65s cubic-bezier(.4,0,.2,1);
+  border-top:0px solid var(--gh-border);
+}
+.gh-expand-box.open{max-height:3200px;border-top:1px solid var(--gh-border)}
+.gh-expand-inner{
+  padding:2rem 1.8rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+  text-align:left;
+}
+@media(max-width:680px){.gh-expand-inner{grid-template-columns:1fr}}
+.gh-block h4{
+  font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--gh-text);
+  display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem;text-align:left;
+}
+.gh-block p{font-size:.86rem;line-height:1.75;color:var(--gh-muted);text-align:left}
+.gh-expand-inner,
+.gh-expand-inner *{text-align:left !important}
+.gh-steps{list-style:none;counter-reset:gs;display:flex;flex-direction:column;gap:.7rem;text-align:left}
+.gh-steps li{
+  counter-increment:gs;display:flex;align-items:flex-start;gap:.75rem;
+  font-size:.85rem;color:var(--gh-muted);line-height:1.6;text-align:left;
+}
+.gh-steps li::before{
+  content:counter(gs);
+  min-width:26px;height:26px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:var(--gh-text);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;flex-shrink:0;margin-top:.1rem;
+}
+.gh-bullets{list-style:none;display:flex;flex-direction:column;gap:.55rem;text-align:left}
+.gh-bullets li{
+  font-size:.85rem;color:var(--gh-muted);line-height:1.6;text-align:left;
+  padding-left:1.3rem;position:relative;
+}
+.gh-bullets li::before{content:'→';position:absolute;left:0;top:.05rem;color:var(--gh-muted);font-size:.75rem}
+.gh-hl{
+  padding:1.1rem 1.2rem;border-radius:14px;
+  background:rgba(63,185,80,.07);border-left:3px solid var(--gh-green);
+  font-size:.86rem;line-height:1.75;color:var(--gh-muted);text-align:left;
+}
+.gh-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}
+.gh-tag{
+  font-size:.72rem;font-weight:600;
+  padding:.3rem .8rem;border-radius:50px;
+  background:rgba(255,255,255,.07);border:1px solid var(--gh-border);
+  color:rgba(255,255,255,.7);
+}
+.contribution-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:3px;margin:1rem 0;
+}
+.cg-cell{
+  aspect-ratio:1;border-radius:2px;
+  transition:transform .15s;
+}
+.cg-cell:hover{transform:scale(1.4)}
+
+/* ═══════════════════════════════════════════
+   ROADMAP SECTION
+═══════════════════════════════════════════ */
+.roadmap-section{padding:5rem 1.5rem;background:white}
+.roadmap-inner{max-width:900px;margin:0 auto}
+.timeline{position:relative;padding-left:2.5rem;margin-top:3rem}
+.timeline::before{
+  content:'';position:absolute;left:.6rem;top:0;bottom:0;
+  width:2px;
+  background:linear-gradient(to bottom,var(--rose-d),var(--sky-d),var(--mint-d),var(--lavender-d));
+  border-radius:2px;
+}
+.t-item{position:relative;margin-bottom:2.8rem}
+.t-dot{
+  position:absolute;left:-2.2rem;top:.4rem;
+  width:16px;height:16px;border-radius:50%;
+  border:3px solid white;box-shadow:0 0 0 2px var(--ink);
+}
+.t-badge{
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:.3rem;
+}
+.t-item h4{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
+.t-item p{font-size:.85rem;color:var(--muted);line-height:1.6}
+.t-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.t-tag{
+  font-size:.68rem;font-weight:600;
+  padding:.25rem .7rem;border-radius:50px;
+  background:rgba(28,28,46,.05);border:1.5px solid rgba(28,28,46,.1);
+}
+
+/* ═══════════════════════════════════════════
+   FINAL CTA / MOTIVATION SECTION
+═══════════════════════════════════════════ */
+.cta-section{
+  background:linear-gradient(135deg,var(--peach),var(--rose),var(--lavender),var(--sky));
+  background-size:400% 400%;
+  animation:gradShift 8s ease infinite;
+  padding:5rem 1.5rem;text-align:center;
+}
+@keyframes gradShift{
+  0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+}
+.cta-inner{max-width:700px;margin:0 auto}
+.cta-inner h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,6vw,4rem);font-weight:900;
+  color:var(--ink);letter-spacing:-1.5px;line-height:1.05;margin-bottom:1rem;
+}
+.cta-inner h2 em{font-style:italic;color:var(--rose-d)}
+.cta-inner p{color:rgba(28,28,46,.65);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2rem}
+.cta-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.cta-link{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;
+  padding:.65rem 1.4rem;border-radius:50px;
+  background:rgba(28,28,46,.85);color:white;
+  transition:transform .2s,background .2s;
+}
+.cta-link:hover{transform:translateY(-2px);background:var(--ink)}
+.cta-quote{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.05rem;color:rgba(28,28,46,.55);margin-top:.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   PERSONAL NOTE SECTION
+═══════════════════════════════════════════ */
+.personal-note-section{
+  padding:4rem 1.5rem;
+  background:linear-gradient(135deg,var(--rose) 0%,var(--lilac) 50%,var(--peach) 100%);
+  position:relative;overflow:hidden;
+}
+.personal-note-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='rgba(255,255,255,0.25)'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.personal-note-inner{
+  max-width:640px;margin:0 auto;
+  text-align:center;position:relative;
+}
+.note-envelope{
+  font-size:3rem;margin-bottom:1rem;
+  display:block;
+  animation:floatEnv 3s ease-in-out infinite alternate;
+}
+@keyframes floatEnv{
+  from{transform:translateY(0) rotate(-3deg)}
+  to{transform:translateY(-8px) rotate(3deg)}
+}
+.note-heading{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:900;color:var(--ink);
+  letter-spacing:-0.5px;margin-bottom:1.2rem;
+}
+.note-body{
+  font-size:.98rem;line-height:1.85;
+  color:rgba(28,28,46,.72);
+  margin-bottom:2rem;
+  text-align:center;
+}
+.note-email-btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  background:white;color:var(--ink);
+  padding:.9rem 1.8rem;border-radius:50px;
+  font-size:.88rem;font-weight:600;
+  box-shadow:0 4px 20px rgba(28,28,46,.12);
+  border:2px solid rgba(28,28,46,.08);
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
+  word-break:break-all;
+}
+.note-email-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(28,28,46,.18);
+}
+.note-email-icon{font-size:1.1rem;flex-shrink:0}
+.note-tagline{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:.9rem;
+  color:rgba(28,28,46,.45);
+  margin-top:1.8rem;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  background:var(--ink);padding:2.5rem 1.5rem;text-align:center;
+  color:rgba(255,255,255,.4);font-size:.8rem;
+}
+footer strong{color:rgba(255,255,255,.85)}
+footer .ft-logo{
+  font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;
+  color:white;margin-bottom:.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:600px){
+  .nav-scroll{margin:0 .5rem}
+  .pcard-header{flex-wrap:wrap}
+  .pcard-num{display:none}
+  .hero-stats{gap:1rem}
+  .stat-box{padding:.8rem 1.1rem}
+  .stat-box .n{font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     NAV
+══════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-logo">Code<span class="blink">_</span>Compete</div>
+  <div class="nav-scroll">
+    <a href="#learning" class="nav-pill">☁️ Cloud</a>
+    <a href="#competitive" class="nav-pill">🏆 Competitive</a>
+    <a href="#github" class="nav-pill">🐙 GitHub</a>
+    <a href="#roadmap" class="nav-pill">🗺️ Roadmap</a>
+  </div>
+
+</nav>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-canvas">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+  </div>
+  <div class="hero-chip"><span class="live-dot"></span>Free · Zero Cost · 9 Carefully Chosen Platforms</div>
+  <h1>Learn Beyond<br/><em>the Classroom.</em><br/><span class="line2">Start Building.</span></h1>
+  <p class="hero-sub">India's tech industry doesn't hire degrees. It hires <strong>doers</strong>. Here's your zero-cost, zero-excuse toolkit to become one — before you graduate.</p>
+
+  <div class="hero-stats">
+    <div class="stat-box"><span class="n" style="color:var(--rose-d)">9</span><span class="l">Useful Platforms to Explore</span></div>
+    <div class="stat-box"><span class="n" style="color:var(--sky-d)">₹0</span><span class="l">Total Cost to You</span></div>
+    <div class="stat-box"><span class="n" style="color:var(--mint-d)">∞</span><span class="l">Opportunities Unlocked</span></div>
+    <div class="stat-box"><span class="n" style="color:var(--lavender-d)">1</span><span class="l">Reason to Start Now</span></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#learning" class="btn-primary">Explore All Platforms ↓</a>
+    <a href="#github" class="btn-ghost">GitHub is Special →</a>
+  </div>
+  <div class="hero-scroll-hint"><span>Scroll to begin your journey</span><span>↓</span></div>
+</section>
+
+<!-- ══════════════════════════════════
+     WHY SECTION
+══════════════════════════════════ -->
+<section class="why-section">
+  <div class="why-inner">
+    <h2 class="why-h">What You Learn<br/><em>Shapes What You Become.</em></h2>
+    <p class="why-sub">Every platform here is free. Every skill you build stays with you. Here's why it's worth your time.</p>
+    <div class="why-cards">
+      <div class="why-card"><div class="wi">🎯</div><h4>Better Interview Preparation</h4><p>Competitive coding problems are similar to what many companies ask in technical interviews. Practising consistently helps you feel more comfortable and prepared.</p></div>
+      <div class="why-card"><div class="wi">🏅</div><h4>Recognised Certificates</h4><p>Google, Microsoft, AWS, IBM — these platforms offer free certificates that are widely recognised. Adding them to your profile shows initiative and genuine learning.</p></div>
+      <div class="why-card"><div class="wi">🌐</div><h4>A Portfolio You Can Show</h4><p>GitHub lets you collect and present your work. Having something tangible to share during interviews or applications can make a real difference.</p></div>
+      <div class="why-card"><div class="wi">💸</div><h4>Zero Cost to You</h4><p>All platforms listed here are completely free for students. The only investment needed is your time and consistency.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     VERTICAL A: LEARNING PLATFORMS
+══════════════════════════════════ -->
+<section class="section" id="learning">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-eyebrow" style="background:var(--sky);color:var(--sky-d)">☁️ Vertical A</span>
+      <h2 class="section-h">Free Learning &<br/>Certification Platforms</h2>
+      <p class="section-sub">Build AI, Cloud & DevOps skills with globally recognized certificates — from Google, Microsoft, Amazon, and IBM. All free. All powerful.</p>
+    </div>
+
+    <!-- ─── A1: GOOGLE SKILLS ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--peach),var(--lemon))"></div>
+      <span class="v-tag" style="background:var(--lemon);color:var(--lemon-d)">A1 · Google</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--peach),var(--lemon))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--lemon),#fffbe0)">
+        <div class="pcard-icon" style="background:var(--lemon)">🟡</div>
+        <div>
+          <div class="pcard-title">Google Skills Builder</div>
+          <div class="pcard-tagline">3,000+ AI & Cloud courses. Google badges. Zero rupees. Infinite ROI.</div>
+        </div>
+        <div class="pcard-num">A1</div>
+      </div>
+      <div class="video-label">▶ Watch: Getting Started with Google Skills Builder</div>
+      <div class="video-container" onclick="openYT('_MG_vAkhUiw')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/_MG_vAkhUiw/maxresdefault.jpg" alt="Google Skills Builder Guide" onerror="this.src='https://img.youtube.com/vi/_MG_vAkhUiw/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>Google Skills Builder — Getting Started Guide</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(253,246,200,.3)"><span class="qchip-ico">🎯</span><div><div class="qchip-lbl">Focus Area</div><div class="qchip-val">AI, Generative AI, Cloud, Data, Gemini</div></div></div>
+          <div class="qchip" style="background:rgba(253,246,200,.3)"><span class="qchip-ico">📚</span><div><div class="qchip-lbl">Courses Available</div><div class="qchip-val">~3,000 free courses + hands-on labs</div></div></div>
+          <div class="qchip" style="background:rgba(253,246,200,.3)"><span class="qchip-ico">🏅</span><div><div class="qchip-lbl">Credential Earned</div><div class="qchip-val">Google Skill Badges — recruiter-recognized</div></div></div>
+          <div class="qchip" style="background:rgba(253,246,200,.3)"><span class="qchip-ico">💰</span><div><div class="qchip-lbl">Student Bonus</div><div class="qchip-val">35 free lab credits/month via GEAR program</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-google')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--lemon);border-color:var(--lemon-d);color:var(--lemon-d)">AI Essentials</span>
+            <span class="tag">Generative AI</span>
+            <span class="tag">Cloud Basics</span>
+            <span class="tag">Free Badge</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-google">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 Quick Start Steps</h4>
+            <ol class="steps">
+              <li>Go to <strong>skills.google.com</strong> → Sign in with your Gmail (free)</li>
+              <li>Browse catalog or search "AI" / "Beginner" to find your first course</li>
+              <li>Enroll in any free course — most are 100% free</li>
+              <li>Join the <strong>GEAR program</strong> → Get 35 free hands-on lab credits every month</li>
+              <li>Complete courses → Earn your shareable <strong>Google Skill Badge</strong></li>
+              <li>Download badge → Add to LinkedIn profile & resume immediately</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🏆 What You'll Earn</h4>
+            <ul class="bullets">
+              <li>Google Skill Badges with unique verification URL — paste anywhere</li>
+              <li>Hands-on lab completion records — proves practical, not just theory</li>
+              <li>Course certificates for AI Essentials, Gemini, Prompt Engineering</li>
+              <li>GEAR program badge — shows active learner status to Google recruiters</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Opportunities It Unlocks</h4>
+            <ul class="bullets">
+              <li>Google-affiliated roles in AI, cloud, and data engineering</li>
+              <li>LinkedIn badge visibility — 40% more recruiter profile views</li>
+              <li>Foundation for GCP (Google Cloud Professional) certification later</li>
+              <li>Direct path to Google Cloud internship/job applications</li>
+              <li>Resume differentiator: 90% of students in your batch won't have this</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 Why This Matters Right Now</h4>
+            <div class="highlight-box" style="background:var(--lemon);border-color:var(--lemon-d)">
+              AI is the #1 skill employers asked for in 2025–26. A Google AI badge on your resume signals you're ahead of the curve. In a world where everyone has a CSE degree, your Google badge is the thing that makes them call <em>you</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── A2: MICROSOFT LEARN ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--sky),var(--lavender))"></div>
+      <span class="v-tag" style="background:var(--sky);color:var(--sky-d)">A2 · Microsoft</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--sky),var(--lavender))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--sky),#e8f4ff)">
+        <div class="pcard-icon" style="background:var(--sky)">🔵</div>
+        <div>
+          <div class="pcard-title">Microsoft Learn</div>
+          <div class="pcard-tagline">Azure credits. AI paths. DevOps labs. Your future tech stack, free.</div>
+        </div>
+        <div class="pcard-num">A2</div>
+      </div>
+      <div class="video-label">▶ Watch: Microsoft Learn — Full Student Guide</div>
+      <div class="video-container" onclick="openYT('5xVWtMA83c8')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/5xVWtMA83c8/maxresdefault.jpg" alt="Microsoft Learn Guide" onerror="this.src='https://img.youtube.com/vi/5xVWtMA83c8/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>Microsoft Learn — Azure, AI & DevOps for Students</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(212,234,251,.3)"><span class="qchip-ico">☁️</span><div><div class="qchip-lbl">Focus Area</div><div class="qchip-val">Azure, AI, DevOps, Cloud, Programming</div></div></div>
+          <div class="qchip" style="background:rgba(212,234,251,.3)"><span class="qchip-ico">💳</span><div><div class="qchip-lbl">Student Bonus</div><div class="qchip-val">$100 Azure credits + 25 free cloud services</div></div></div>
+          <div class="qchip" style="background:rgba(212,234,251,.3)"><span class="qchip-ico">🏅</span><div><div class="qchip-lbl">Credentials</div><div class="qchip-val">Microsoft Badge + 50% off AZ-900 exam</div></div></div>
+          <div class="qchip" style="background:rgba(212,234,251,.3)"><span class="qchip-ico">🔬</span><div><div class="qchip-lbl">Learning Style</div><div class="qchip-val">Sandbox labs — real cloud, not just slides</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-msft')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--sky);border-color:var(--sky-d);color:var(--sky-d)">Azure Free</span>
+            <span class="tag">AZ-900 Prep</span>
+            <span class="tag">AI-900</span>
+            <span class="tag">$100 Credits</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-msft">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 Quick Start Steps</h4>
+            <ol class="steps">
+              <li>Visit <strong>learn.microsoft.com</strong> → Sign in (top right — Gmail also works)</li>
+              <li>Go to Profile → Settings → Career Paths → Select <strong>"Student"</strong></li>
+              <li>Verify student status via your college email through SheerID (takes 2–3 mins)</li>
+              <li>Access <strong>Azure for Students</strong>: $100 credits + 25+ free Azure services unlocked</li>
+              <li>Start with "Azure Fundamentals" or "Introduction to AI" learning path</li>
+              <li>Complete modules → Earn Microsoft Badge → Share to LinkedIn automatically</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🏆 What You'll Earn</h4>
+            <ul class="bullets">
+              <li>Microsoft Skill Badges — employer-trusted globally</li>
+              <li><strong>$100 Azure credits</strong> valid 12 months — renewable each academic year</li>
+              <li>50%+ discount on AZ-900, AI-900 certification exams</li>
+              <li>Sandbox completion records proving hands-on cloud skill</li>
+              <li>Microsoft Student Ambassador eligibility (paid opportunity)</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Opportunities It Unlocks</h4>
+            <ul class="bullets">
+              <li>Microsoft Azure roles: highest-paying cloud jobs in India 2026</li>
+              <li>AZ-900 certified candidates tend to be viewed more favourably in cloud and IT roles</li>
+              <li>TCS, Infosys, Wipro — all require Azure/cloud knowledge now</li>
+              <li>Microsoft Student Ambassador = real Microsoft mentorship + career track</li>
+              <li>DevOps engineer path: one of the most in-demand profiles in India</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 Your Microsoft Learning Path</h4>
+            <div class="highlight-box" style="background:var(--sky);border-color:var(--sky-d)">
+              Semester 1: Azure Fundamentals (AZ-900) → Semester 3: AI-900 → Final year: AZ-104 (Administrator). Each certification deepens your cloud knowledge and is recognised by many employers looking for cloud-ready candidates.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── A3: AWS ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--peach),var(--coral))"></div>
+      <span class="v-tag" style="background:var(--peach);color:var(--coral-d)">A3 · AWS</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--peach),var(--coral))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--peach),#ffe8d0)">
+        <div class="pcard-icon" style="background:var(--peach)">🟠</div>
+        <div>
+          <div class="pcard-title">AWS Skill Builder</div>
+          <div class="pcard-tagline">900+ courses. Game-based labs. The cloud that runs half the internet — learn it free.</div>
+        </div>
+        <div class="pcard-num">A3</div>
+      </div>
+      <div class="video-label">▶ Watch: AWS Skill Builder — From Zero to Cloud</div>
+      <div class="video-container" onclick="openYT('GEH2JzIwRcM')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/GEH2JzIwRcM/maxresdefault.jpg" alt="AWS Skill Builder Guide" onerror="this.src='https://img.youtube.com/vi/GEH2JzIwRcM/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>AWS Skill Builder — Free Cloud Learning for Students</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(253,232,208,.3)"><span class="qchip-ico">🌩️</span><div><div class="qchip-lbl">Focus Area</div><div class="qchip-val">AWS Cloud, DevOps, EC2, Lambda, S3</div></div></div>
+          <div class="qchip" style="background:rgba(253,232,208,.3)"><span class="qchip-ico">📦</span><div><div class="qchip-lbl">Courses</div><div class="qchip-val">900+ free self-paced courses</div></div></div>
+          <div class="qchip" style="background:rgba(253,232,208,.3)"><span class="qchip-ico">🎓</span><div><div class="qchip-lbl">Student Bonus</div><div class="qchip-val">12 months premium via AWS Academy</div></div></div>
+          <div class="qchip" style="background:rgba(253,232,208,.3)"><span class="qchip-ico">🎮</span><div><div class="qchip-lbl">Fun Learning</div><div class="qchip-val">Cloud Quest — game-based cloud practice</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-aws')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--peach);border-color:var(--coral-d);color:var(--coral-d)">AWS Academy</span>
+            <span class="tag">Cloud Practitioner</span>
+            <span class="tag">EC2 / S3</span>
+            <span class="tag">DevOps</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-aws">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 Quick Start Steps</h4>
+            <ol class="steps">
+              <li>Go to <strong>skillbuilder.aws</strong> → Click "Create Account" (free)</li>
+              <li>Filter courses by "Free" → Start with <strong>"AWS Cloud Practitioner Essentials"</strong></li>
+              <li>Check with HOD/Placement Cell — if your college has <strong>AWS Academy</strong> enrollment = 12 months premium free</li>
+              <li>Or sign up for <strong>AWS Educate</strong> with student email for free hands-on labs</li>
+              <li>Create a separate free AWS account for real-world practice (AWS Free Tier — 12 months)</li>
+              <li>Play <strong>Cloud Quest</strong>: game-based AWS learning — seriously fun and seriously effective</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🏆 What You'll Earn</h4>
+            <ul class="bullets">
+              <li>AWS digital badges — shareable, verifiable, Credly-powered</li>
+              <li>AWS Certified Cloud Practitioner — a recognised entry-level certification that can improve job prospects</li>
+              <li>Hands-on lab certificates for EC2, S3, Lambda, RDS</li>
+              <li>Cloud Quest game completion badge — surprisingly impressive on resume</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Why AWS = Career Gold</h4>
+            <ul class="bullets">
+              <li>AWS powers 33% of the internet — skills translate directly to work</li>
+              <li>AWS Certified Cloud Practitioner: cloud certifications are generally valued by hiring teams across IT companies</li>
+              <li>TCS, Infosys, Accenture, startups all prefer AWS-certified candidates</li>
+              <li>EC2 uses Linux — your OS coursework becomes directly applicable</li>
+              <li>AWS Solution Architect = one of top 5 highest-paid IT certifications in India</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 Your AWS Career Trajectory</h4>
+            <div class="highlight-box" style="background:var(--peach);border-color:var(--coral-d)">
+              Year 2: Cloud Practitioner (CLF-C02) → Year 3: Solutions Architect Associate (SAA-C03) → Final year: DevOps Engineer path. Each certification builds on the previous and demonstrates growing depth of cloud knowledge to employers.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── A4: IBM ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--lavender),var(--lilac))"></div>
+      <span class="v-tag" style="background:var(--lavender);color:var(--lavender-d)">A4 · IBM</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--lavender),var(--lilac))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--lavender),#ede5ff)">
+        <div class="pcard-icon" style="background:var(--lavender)">🔷</div>
+        <div>
+          <div class="pcard-title">IBM SkillsBuild</div>
+          <div class="pcard-tagline">1,000+ free courses. IBM badges via Credly. Virtual internships. Your cybersecurity & AI head start.</div>
+        </div>
+        <div class="pcard-num">A4</div>
+      </div>
+      <div class="video-label">▶ Watch: IBM SkillsBuild — Badges, Internships & AI Skills</div>
+      <div class="video-container" onclick="openYT('Qjin8yos3qw')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Qjin8yos3qw/maxresdefault.jpg" alt="IBM SkillsBuild Guide" onerror="this.src='https://img.youtube.com/vi/Qjin8yos3qw/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>IBM SkillsBuild — 1,000 Courses, Real Badges</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(232,223,248,.3)"><span class="qchip-ico">🛡️</span><div><div class="qchip-lbl">Focus Area</div><div class="qchip-val">AI (watsonx), Cybersecurity, Data, Cloud</div></div></div>
+          <div class="qchip" style="background:rgba(232,223,248,.3)"><span class="qchip-ico">📜</span><div><div class="qchip-lbl">Credentials</div><div class="qchip-val">IBM Digital Badges via Credly — globally verified</div></div></div>
+          <div class="qchip" style="background:rgba(232,223,248,.3)"><span class="qchip-ico">💼</span><div><div class="qchip-lbl">Student Bonus</div><div class="qchip-val">6-week virtual internships with certificate</div></div></div>
+          <div class="qchip" style="background:rgba(232,223,248,.3)"><span class="qchip-ico">🤝</span><div><div class="qchip-lbl">India Tie-ups</div><div class="qchip-val">AICTE / Edunet / Nasscom partnerships</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-ibm')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--lavender);border-color:var(--lavender-d);color:var(--lavender-d)">IBM Credly</span>
+            <span class="tag">Virtual Internship</span>
+            <span class="tag">Cybersecurity</span>
+            <span class="tag">AI watsonx</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-ibm">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 Quick Start Steps</h4>
+            <ol class="steps">
+              <li>Go to <strong>skillsbuild.org</strong> → Sign Up (Google/email — free)</li>
+              <li>Complete profile → Select "Student" and your interest areas</li>
+              <li>Check with college: AICTE/Edunet Foundation tie-ups may unlock premium content</li>
+              <li>Search "Introduction to AI" or "Cybersecurity Fundamentals" → Enroll</li>
+              <li>Earn IBM digital badge → Share to LinkedIn via <strong>Credly</strong> (automatic link)</li>
+              <li>Apply for <strong>virtual internship programs</strong> (6-week, certificate included)</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🏆 Credentials & Career Tools</h4>
+            <ul class="bullets">
+              <li>IBM Digital Badges — globally recognized, Credly-verified by employers</li>
+              <li>6-week virtual internship certificate — adds real "experience" to resume</li>
+              <li>Career path explorer + resume builder built into the platform</li>
+              <li>Interview prep tools + mock assessments — all free</li>
+              <li>NASSCOM / AICTE partnership: badges carry national credibility in India</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Opportunities Unlocked</h4>
+            <ul class="bullets">
+              <li>Cybersecurity = fastest growing IT career in India (40% annual growth)</li>
+              <li>IBM watsonx AI skills: directly relevant to enterprise AI roles</li>
+              <li>Virtual internship = real work experience before your actual internship</li>
+              <li>Credly badge URL on resume → recruiter can verify with one click</li>
+              <li>AICTE recognition: counts toward skill development in national records</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 The IBM Advantage</h4>
+            <div class="highlight-box" style="background:var(--lavender);border-color:var(--lavender-d)">
+              IBM employs 250,000+ people globally. An IBM badge on your profile signals you speak their language. Cybersecurity professionals in India earn ₹8–25 LPA at 0–3 years experience. This is the ground floor. Get on it.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     VERTICAL B: COMPETITIVE CODING
+══════════════════════════════════ -->
+<section class="section" id="competitive" style="background:rgba(255,255,255,.6)">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-eyebrow" style="background:var(--mint);color:var(--mint-d)">🏆 Vertical B</span>
+      <h2 class="section-h">Competitive Coding<br/>Platforms</h2>
+      <p class="section-sub">DSA. Speed. Logic. These are the three things every tech interview tests. These platforms are where you build all three — for free, with a leaderboard.</p>
+    </div>
+
+    <!-- ─── B1: LEETCODE ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--lemon),var(--peach))"></div>
+      <span class="v-tag" style="background:var(--lemon);color:#c47a00">B1 · LeetCode</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--lemon),var(--peach))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,#fff7ed,#fde8d0)">
+        <div class="pcard-icon" style="background:#fff3e0">🟠</div>
+        <div>
+          <div class="pcard-title">LeetCode</div>
+          <div class="pcard-tagline">A popular platform for interview preparation. 4,100+ problems, company-tagged questions, and a helpful community.</div>
+        </div>
+        <div class="pcard-num">B1</div>
+      </div>
+      <div class="video-label">▶ Watch: LeetCode — Start Solving, Start Winning</div>
+      <div class="video-container" onclick="openYT('UdMJ7fahEUc')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/UdMJ7fahEUc/maxresdefault.jpg" alt="LeetCode Guide" onerror="this.src='https://img.youtube.com/vi/UdMJ7fahEUc/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring" style="color:#cc0000">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>LeetCode — Your Interview Arena</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip"><span class="qchip-ico">❓</span><div><div class="qchip-lbl">Problems</div><div class="qchip-val">4,100+ across Easy / Medium / Hard</div></div></div>
+          <div class="qchip"><span class="qchip-ico">🏢</span><div><div class="qchip-lbl">Company Tags</div><div class="qchip-val">Google, Amazon, Microsoft, Infosys, TCS</div></div></div>
+          <div class="qchip"><span class="qchip-ico">🏆</span><div><div class="qchip-lbl">Contests</div><div class="qchip-val">Weekly (Sat) + Biweekly — rated & ranked</div></div></div>
+          <div class="qchip"><span class="qchip-ico">📊</span><div><div class="qchip-lbl">Badge/Rank</div><div class="qchip-val">Solve count + Contest rating on profile</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-lc')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag">Interview Prep</span>
+            <span class="tag">Grind 75</span>
+            <span class="tag">NeetCode 150</span>
+            <span class="tag">Mock Interview</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-lc">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 How to Begin</h4>
+            <ol class="steps">
+              <li>Go to <strong>leetcode.com</strong> → Sign up with Google/email (free)</li>
+              <li>Choose language: <strong>Python</strong> (recommended) or C++</li>
+              <li>Filter: Difficulty = Easy + Topic = Arrays/Strings → Solve 20 easy first</li>
+              <li>Follow <strong>"Top Interview Questions Easy"</strong> path — official collection</li>
+              <li>Join <strong>Weekly Contest</strong> (every Saturday ~8:00 AM IST) — even rank 5000 beats no rank</li>
+              <li>Daily habit: 3–5 problems + 1 contest per week = interview ready in 3 months</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🏆 The LeetCode Rating System</h4>
+            <ul class="bullets">
+              <li>Solve count shown on profile — recruiters see this directly</li>
+              <li>Contest rating (Knight/Guardian) adds credibility to your profile and resume</li>
+              <li><strong>Grind 75</strong> + <strong>NeetCode 150</strong>: free structured plans to crack any interview</li>
+              <li>Company-specific problem sets: "Google 30-day" etc.</li>
+              <li>Mock interview mode — 45-minute timed session, real pressure training</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Career Opportunities</h4>
+            <ul class="bullets">
+              <li>90% of top tech companies use LeetCode-style problems in hiring</li>
+              <li>300+ problems solved = interview-ready for ANY company</li>
+              <li>LeetCode premium mock interviews (free trial) = OA (Online Assessment) prep</li>
+              <li>Biweekly contest prizes for top performers</li>
+              <li>Profile link in resume → recruiters verify your actual skill instantly</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 Your LeetCode Roadmap</h4>
+            <div class="highlight-box" style="background:#fff7ed;border-color:#f5a96a">
+              <strong>Month 1:</strong> 30 Easy problems (build muscle memory)<br/>
+              <strong>Month 2–3:</strong> 60 Medium problems (core interview range)<br/>
+              <strong>Month 4+:</strong> Weekly contests + Hard problems<br/>
+              <strong>Target:</strong> 150 problems = more confident in interviews · 300+ = broader problem-solving exposure
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── B2: CODEFORCES ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--sky),var(--mint))"></div>
+      <span class="v-tag" style="background:var(--sky);color:var(--sky-d)">B2 · Codeforces</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--sky),var(--mint))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--sky),#e0f0ff)">
+        <div class="pcard-icon" style="background:var(--sky)">🔵</div>
+        <div>
+          <div class="pcard-title">Codeforces</div>
+          <div class="pcard-tagline">10,000+ problems. Global arena. Newbie → Grandmaster. This is where legends are ranked.</div>
+        </div>
+        <div class="pcard-num">B2</div>
+      </div>
+      <div class="video-label">▶ Watch: Codeforces — The Competitive Programmer's Bible</div>
+      <div class="video-container" onclick="openYT('RuSSEYAN9zs')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/RuSSEYAN9zs/maxresdefault.jpg" alt="Codeforces Guide" onerror="this.src='https://img.youtube.com/vi/RuSSEYAN9zs/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring" style="color:#1f8ef1">▶</button>
+          <p>Codeforces — The Global Competitive Programming Arena</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip"><span class="qchip-ico">🌍</span><div><div class="qchip-lbl">Problem Bank</div><div class="qchip-val">10,000+ problems — world's largest</div></div></div>
+          <div class="qchip"><span class="qchip-ico">⚡</span><div><div class="qchip-lbl">Contests</div><div class="qchip-val">Div 1/2/3/4 — almost weekly, rated</div></div></div>
+          <div class="qchip"><span class="qchip-ico">🎨</span><div><div class="qchip-lbl">Rating Colors</div><div class="qchip-val">Gray→Green→Blue→Purple→Orange→Red</div></div></div>
+          <div class="qchip"><span class="qchip-ico">🇮🇳</span><div><div class="qchip-lbl">India Impact</div><div class="qchip-val">1400+ rating directly impresses recruiters</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-cf')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--sky);border-color:var(--sky-d);color:var(--sky-d)">ICPC Path</span>
+            <span class="tag">Global Rank</span>
+            <span class="tag">Upsolve Culture</span>
+            <span class="tag">Educational Rounds</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-cf">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 How to Begin</h4>
+            <ol class="steps">
+              <li>Go to <strong>codeforces.com</strong> → Click "Register" (top right, free)</li>
+              <li>Start with Problemset: Filter Rating 800–1000 → Solve 30–50 easy problems</li>
+              <li>Join <strong>Div. 3, Div. 4, or Educational Rounds</strong> — beginner-friendly & rated</li>
+              <li>After each contest: <strong>Read editorial → Upsolve</strong> every missed problem</li>
+              <li>Use "Virtual Participation" on past contests for timed practice</li>
+              <li>Daily: 3–5 problems + 1 contest per week — consistently</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🎨 The CF Color System</h4>
+            <ul class="bullets">
+              <li><strong>Gray (Newbie &lt;1200):</strong> Day 1 — nothing to fear, everything to gain</li>
+              <li><strong>Green (Pupil 1200+):</strong> Basic coding solid — top 40% globally</li>
+              <li><strong>Cyan (Specialist 1400+):</strong> Recruiter-visible territory — put it on resume</li>
+              <li><strong>Blue (Expert 1600+):</strong> Top 15% — interview calls increase dramatically</li>
+              <li><strong>Violet (Candidate Master 1900+):</strong> Strong competitive programmer — respected globally</li>
+              <li><strong>Orange/Red (Master+ 2100+):</strong> Very advanced — reaches this through years of dedicated practice</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Doors It Opens</h4>
+            <ul class="bullets">
+              <li>ICPC (ACM) — world's most prestigious programming competition</li>
+              <li>Google Code Jam, Meta Hacker Cup — direct pathway</li>
+              <li>IIT/IIIT research internships — CF rating is screened for these</li>
+              <li>Global leaderboard: your public profile reflects your consistent effort over time</li>
+              <li>Newbie→Expert in 6–12 months with consistent practice — it's been done by students from this very city</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 The Upsolve Secret</h4>
+            <div class="highlight-box" style="background:var(--sky);border-color:var(--sky-d)">
+              The #1 habit that separates CF Experts from Newbies: <strong>upsolving</strong>. After every contest, solve every problem you couldn't during the contest. Read the editorial. Understand it. Reimplement from scratch. This single habit compounds into 300+ rating points over 3 months.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── B3: CODECHEF ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--peach),var(--rose))"></div>
+      <span class="v-tag" style="background:var(--rose);color:var(--rose-d)">B3 · CodeChef</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--peach),var(--rose))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--rose),#ffe4e4)">
+        <div class="pcard-icon" style="background:var(--rose)">⭐</div>
+        <div>
+          <div class="pcard-title">CodeChef</div>
+          <div class="pcard-tagline">India's competitive coding home. Weekly Starters. 1★ to 7★. Your rating, your rank, your respect.</div>
+        </div>
+        <div class="pcard-num">B3</div>
+      </div>
+      <div class="video-label">▶ Watch: CodeChef — India's Competitive Coding Community</div>
+      <div class="video-container" onclick="openYT('iqSrq3DB4ac')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/iqSrq3DB4ac/maxresdefault.jpg" alt="CodeChef Guide" onerror="this.src='https://img.youtube.com/vi/iqSrq3DB4ac/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring" style="color:var(--rose-d)">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>CodeChef — Stars, Starters & Indian Tech Hiring</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(252,228,228,.3)"><span class="qchip-ico">⭐</span><div><div class="qchip-lbl">Rating System</div><div class="qchip-val">1★ to 7★ — shareable on LinkedIn & resume</div></div></div>
+          <div class="qchip" style="background:rgba(252,228,228,.3)"><span class="qchip-ico">📅</span><div><div class="qchip-lbl">Contests</div><div class="qchip-val">Weekly Starters (Wed 8:30 PM IST) — beginner friendly</div></div></div>
+          <div class="qchip" style="background:rgba(252,228,228,.3)"><span class="qchip-ico">🇮🇳</span><div><div class="qchip-lbl">India Focus</div><div class="qchip-val">Walmart, Amazon India, TCS run hiring here</div></div></div>
+          <div class="qchip" style="background:rgba(252,228,228,.3)"><span class="qchip-ico">🏫</span><div><div class="qchip-lbl">Campus Chapter</div><div class="qchip-val">Start a CodeChef chapter at your college!</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-cc')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--rose);border-color:var(--rose-d);color:var(--rose-d)">Star Rating</span>
+            <span class="tag">GATE Prep Overlap</span>
+            <span class="tag">Hiring Contests</span>
+            <span class="tag">Campus Chapter</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-cc">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 How to Begin</h4>
+            <ol class="steps">
+              <li>Go to <strong>codechef.com</strong> → Register (free, 1 minute)</li>
+              <li>Go to Contests tab → Find upcoming <strong>Starters</strong> contest (weekly, Wed)</li>
+              <li>Register for next Starters round → 8:30 PM IST — mark your calendar!</li>
+              <li>Solve during 2-hour contest window → Read editorial after for every unsolved</li>
+              <li>Use Practice tab → Filter by topic & difficulty for daily problem solving</li>
+              <li>Aim for <strong>3★ (1600+ rating)</strong> as your first major milestone</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>⭐ Star Rating Decoded</h4>
+            <ul class="bullets">
+              <li><strong>1★ (Gray):</strong> Starting — every coder begins here, no shame</li>
+              <li><strong>2★ (Green):</strong> Basic chops — internship conversations start</li>
+              <li><strong>3★ (Blue 1600+):</strong> Interview shortlist territory — target this by Year 2</li>
+              <li><strong>4★ (Violet):</strong> Top 20% nationally — companies reach out</li>
+              <li><strong>5★ (Yellow):</strong> Very strong performer — stands out during company hiring drives</li>
+              <li><strong>6–7★ (Red):</strong> Exceptionally rare — represents years of serious practice</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Unique Opportunities</h4>
+            <ul class="bullets">
+              <li>Indian companies run <strong>CodeChef hiring contests</strong> — win = job offer</li>
+              <li>CodeChef Campus Chapter: Start one at your college → leadership + recognition</li>
+              <li>ICPC preparation — CodeChef is an official ICPC partner platform</li>
+              <li>Pairs perfectly with GATE exam prep — same DSA + algo overlap</li>
+              <li>Huge Indian community: easy to find peers, ask questions, build study groups</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 The Starters Strategy</h4>
+            <div class="highlight-box" style="background:var(--rose);border-color:var(--rose-d)">
+              Attend every Wednesday Starters. Even solving just Problems A and B gets you a positive delta in rating. Do this for 8 weeks and you'll go from 1★ to 2★ comfortably. The students who do this consistently in Year 1 sit 200–300 rating points above everyone else by Year 3.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── B4: ATCODER ─── -->
+    <div class="vertical-label reveal">
+      <div class="v-line" style="background:linear-gradient(to right,var(--teal),var(--mint))"></div>
+      <span class="v-tag" style="background:var(--teal);color:var(--teal-d)">B4 · AtCoder</span>
+      <div class="v-line" style="background:linear-gradient(to left,var(--teal),var(--mint))"></div>
+    </div>
+    <div class="pcard reveal">
+      <div class="pcard-header" style="background:linear-gradient(135deg,var(--teal),#c0f0f0)">
+        <div class="pcard-icon" style="background:var(--teal)">🇯🇵</div>
+        <div>
+          <div class="pcard-title">AtCoder</div>
+          <div class="pcard-tagline">Japan's gift to global coders. The cleanest algorithmic problems on Earth. Quality over quantity.</div>
+        </div>
+        <div class="pcard-num">B4</div>
+      </div>
+      <div class="video-label">▶ Watch: AtCoder — The Hidden Gem of Competitive Programming</div>
+      <div class="video-container" onclick="openYT('CJZsjX6Aecw')" title="Click to watch on YouTube">
+        <img class="video-thumb" src="https://img.youtube.com/vi/CJZsjX6Aecw/maxresdefault.jpg" alt="AtCoder Guide" onerror="this.src='https://img.youtube.com/vi/CJZsjX6Aecw/hqdefault.jpg'"/>
+        <div class="video-cover">
+          <button class="play-ring" style="color:var(--teal-d)">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p>AtCoder — Clean Problems, Real Growth</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+      <div class="quick-bar">
+        <div class="quick-grid">
+          <div class="qchip" style="background:rgba(208,240,240,.3)"><span class="qchip-ico">✨</span><div><div class="qchip-lbl">Problem Quality</div><div class="qchip-val">Cleanest algorithmic problems globally</div></div></div>
+          <div class="qchip" style="background:rgba(208,240,240,.3)"><span class="qchip-ico">📅</span><div><div class="qchip-lbl">ABC Contests</div><div class="qchip-val">Weekly (Sat ~7AM IST) — beginner friendly</div></div></div>
+          <div class="qchip" style="background:rgba(208,240,240,.3)"><span class="qchip-ico">🎨</span><div><div class="qchip-lbl">Rating Colors</div><div class="qchip-val">Gray→Green→Blue→Yellow→Orange→Red</div></div></div>
+          <div class="qchip" style="background:rgba(208,240,240,.3)"><span class="qchip-ico">📚</span><div><div class="qchip-lbl">Archive</div><div class="qchip-val">Large contest archive with varied practice problems</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="rm-btn" onclick="toggleExpand(this,'exp-ac')">Deep Dive <span class="arr">↓</span></button>
+          <div class="tags-row">
+            <span class="tag" style="background:var(--teal);border-color:var(--teal-d);color:var(--teal-d)">ABC Weekly</span>
+            <span class="tag">Algorithm Mastery</span>
+            <span class="tag">Global Archive</span>
+            <span class="tag">Google / Amazon</span>
+          </div>
+        </div>
+      </div>
+      <div class="expand-box" id="exp-ac">
+        <div class="expand-inner">
+          <div class="exp-block">
+            <h4>🚀 How to Begin</h4>
+            <ol class="steps">
+              <li>Go to <strong>atcoder.jp</strong> → Click "Sign Up" (free, worldwide)</li>
+              <li>Start with <strong>"Practice Contest"</strong> (permanent, unrated) → learn submission flow</li>
+              <li>Browse past ABC problems: Start with 100–300 point problems (A and B levels)</li>
+              <li>Register for upcoming ABC contest (runs every Saturday ~7AM IST)</li>
+              <li>After each contest: Read editorial → <strong>Upsolve D/E problems</strong> for maximum growth</li>
+              <li>Combine with Codeforces for broader exposure — the two complement each other well</li>
+            </ol>
+          </div>
+          <div class="exp-block">
+            <h4>🎨 The AtCoder Growth Path</h4>
+            <ul class="bullets">
+              <li><strong>Gray (Under 400):</strong> First week — everyone starts here</li>
+              <li><strong>Brown (400–799):</strong> Grasping basics — A/B problems comfortable</li>
+              <li><strong>Green (800–1199):</strong> C/D problems accessible — solid foundation</li>
+              <li><strong>Cyan (1200–1599):</strong> Top 20% — interview strength visible</li>
+              <li><strong>Blue (1600–1999):</strong> Strong algorithmist — Google/Amazon notices</li>
+              <li><strong>Yellow+ (2000+):</strong> Advanced level — reached through sustained, long-term practice</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>🌟 Why AtCoder Is Underrated in India</h4>
+            <ul class="bullets">
+              <li>Problem quality is exceptional — solves build <em>genuine</em> thinking, not tricks</li>
+              <li>Top Indian placement candidates (Google, Amazon) heavily use AtCoder</li>
+              <li>Saturday morning schedule — fits perfectly around college week</li>
+              <li>Archive has thousands of problems by topic — structured study path</li>
+              <li>Being on AtCoder shows intellectual curiosity — sets you apart</li>
+            </ul>
+          </div>
+          <div class="exp-block">
+            <h4>📈 CF + AtCoder = A Good Combination</h4>
+            <div class="highlight-box" style="background:var(--teal);border-color:var(--teal-d)">
+              Codeforces = volume and speed. AtCoder = depth and quality. Students who practice both develop the widest algorithmic vocabulary in their batch. Combine these two with LeetCode for DSA and you've covered every angle of every technical interview.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     GITHUB SPECIAL SECTION
+══════════════════════════════════ -->
+<section class="section" id="github">
+  <div class="section-inner">
+    <div class="reveal" style="margin-bottom:2rem">
+      <span class="section-eyebrow" style="background:#21262d;color:#3fb950">🐙 Special Focus</span>
+      <h2 class="section-h">GitHub — Your Living,<br/>Breathing Portfolio</h2>
+      <p class="section-sub">Every certificate says what you know. GitHub shows what you <em>do</em>. It's the only platform where your code speaks louder than your GPA.</p>
+    </div>
+
+    <div class="gh-card reveal">
+      <div class="gh-header">
+        <div class="gh-icon-box">🐙</div>
+        <div>
+          <div class="gh-title">GitHub</div>
+          <div class="gh-sub">The global home for code. Version control, portfolio, open-source, and the Student Developer Pack worth $200,000+.</div>
+        </div>
+        <div class="gh-num">★</div>
+      </div>
+      <p class="gh-video-lbl">▶ In-depth guide — watch before doing anything else on GitHub</p>
+      <div class="video-container" onclick="openYT('Pxw3Eg03278')" title="Click to watch on YouTube" style="border-radius:0">
+        <img class="video-thumb" src="https://img.youtube.com/vi/Pxw3Eg03278/maxresdefault.jpg" alt="GitHub Guide" onerror="this.src='https://img.youtube.com/vi/Pxw3Eg03278/hqdefault.jpg'" style="filter:brightness(.6)"/>
+        <div class="video-cover">
+          <button class="play-ring" style="box-shadow:0 0 0 14px rgba(255,255,255,.08)">▶</button>
+          <span class="yt-hint">↗ Opens on YouTube</span>
+          <p style="color:rgba(255,255,255,.85)">GitHub — Building Your Coding Portfolio</p>
+        </div>
+        <span class="yt-badge">▶ Watch on YouTube</span>
+      </div>
+
+      <!-- Contribution graph visualization -->
+      <div style="padding:1.5rem 1.8rem;border-top:1px solid var(--gh-border)">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gh-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:.8rem">Your goal: a contribution graph like this →</p>
+        <div class="contribution-grid" id="contrib-grid"></div>
+        <p style="font-size:.75rem;color:var(--gh-muted);margin-top:.5rem">Each green square = 1 commit. 365 squares = 365 reasons to hire you.</p>
+      </div>
+
+      <div class="gh-qbar">
+        <div class="gh-qgrid">
+          <div class="gh-chip"><span class="qchip-ico">🟩</span><div><div class="qchip-lbl">Contribution Graph</div><div class="qchip-val">Regular commits show consistency and genuine interest in coding</div></div></div>
+          <div class="gh-chip"><span class="qchip-ico">🎒</span><div><div class="qchip-lbl">Student Pack</div><div class="qchip-val">$200,000+ in free dev tools — GitHub Pro, Copilot AI</div></div></div>
+          <div class="gh-chip"><span class="qchip-ico">🌍</span><div><div class="qchip-lbl">Open Source</div><div class="qchip-val">Contribute to real software used by millions</div></div></div>
+          <div class="gh-chip"><span class="qchip-ico">🌐</span><div><div class="qchip-lbl">GitHub Pages</div><div class="qchip-val">Free portfolio website: yourname.github.io</div></div></div>
+        </div>
+        <div class="action-row">
+          <button class="gh-rm-btn" onclick="toggleGhExpand(this,'exp-gh')">Unlock the Full GitHub Guide <span class="arr">↓</span></button>
+          <div class="gh-tags">
+            <span class="gh-tag">Hacktoberfest</span>
+            <span class="gh-tag">GSoC</span>
+            <span class="gh-tag">Student Pack</span>
+            <span class="gh-tag">Open Source</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gh-expand-box" id="exp-gh">
+        <div class="gh-expand-inner">
+          <div class="gh-block">
+            <h4>🚀 Getting Started (The Right Way)</h4>
+            <ol class="gh-steps">
+              <li>Go to <strong>github.com</strong> → Sign up using your <strong>college email</strong> (critical for Student Pack)</li>
+              <li>Complete profile: Add bio, Ahmedabad location, skills, LinkedIn link</li>
+              <li>Apply for <strong>GitHub Student Developer Pack</strong> at education.github.com/pack — takes 1–2 days</li>
+              <li>Verify student status via college email or enrollment proof (SheerID)</li>
+              <li>Create first repo: Upload OS lab notes, shell scripts, CP solutions</li>
+              <li>Organize all repos by topic → add a README to each → make it look professional</li>
+            </ol>
+          </div>
+          <div class="gh-block">
+            <h4>📦 What to Push to GitHub Today</h4>
+            <ul class="gh-bullets">
+              <li>All DSA practice code organized by topic (Arrays/, Trees/, Graphs/...)</li>
+              <li>Every lab assignment — OS, DBMS, CN, SE labs — all of them</li>
+              <li>Your LeetCode / CodeChef / Codeforces solutions with approach notes</li>
+              <li>Any mini-project, web app, tool, or automation script you've built</li>
+              <li>Open-source contributions (start with documentation fixes!)</li>
+              <li>Your Final Year Project — this gets the most recruiter attention of all</li>
+            </ul>
+          </div>
+          <div class="gh-block">
+            <h4>🎒 GitHub Student Developer Pack — What You Get FREE</h4>
+            <ul class="gh-bullets">
+              <li><strong>GitHub Pro</strong> — private repos, advanced insights, all features</li>
+              <li><strong>GitHub Copilot</strong> — AI coding assistant (worth ₹1,500/month) — FREE</li>
+              <li><strong>JetBrains IDEs</strong> — IntelliJ, PyCharm, WebStorm (worth ₹25,000/year) — FREE</li>
+              <li><strong>Azure + DigitalOcean credits</strong> — real cloud hosting for your projects</li>
+              <li><strong>.me domain name</strong> via Namecheap — yourname.me for portfolio</li>
+              <li><strong>100+ tools</strong> worth $200,000+ — all unlocked by your college email</li>
+            </ul>
+          </div>
+          <div class="gh-block">
+            <h4>🌐 GitHub Pages — Your Free Portfolio Site</h4>
+            <ul class="gh-bullets">
+              <li>Create a repo named <strong>yourusername.github.io</strong></li>
+              <li>Add HTML/CSS or use a Jekyll template — push → live in seconds</li>
+              <li>Domain: <strong>yourname.github.io</strong> — put this on your resume and LinkedIn</li>
+              <li>Showcase projects with screenshots, links, and descriptions</li>
+              <li>Connect your custom .me domain (from Student Pack) for extra polish</li>
+            </ul>
+          </div>
+          <div class="gh-block">
+            <h4>🍂 Hacktoberfest — Free T-Shirt & Real Experience</h4>
+            <ul class="gh-bullets">
+              <li>Every <strong>October</strong> — contribute 4 pull requests to open-source repos</li>
+              <li>Reward: <strong>Free Hacktoberfest T-shirt</strong> + digital badge + tree planted in your name</li>
+              <li>Counts as real open-source contribution on your GitHub profile</li>
+              <li>Find beginner-friendly issues tagged "hacktoberfest" — documentation, tests, bug fixes</li>
+              <li>Many students have gotten internship calls after their Hacktoberfest contributions</li>
+            </ul>
+          </div>
+          <div class="gh-block">
+            <h4>☀️ Google Summer of Code (GSoC) — Paid Open Source</h4>
+            <ul class="gh-bullets">
+              <li>Google pays students <strong>₹3–5 lakh stipend</strong> for a 3-month open source project</li>
+              <li>Eligibility: 18+ years, enrolled student — that's it</li>
+              <li>Start building your GitHub profile NOW — GSoC orgs check your commit history</li>
+              <li>Applications typically open March–April — start contributing to target orgs in Year 2</li>
+              <li>GSoC alumni get priority in Google, Mozilla, Python Foundation hiring</li>
+            </ul>
+          </div>
+          <div class="gh-block full-span">
+            <h4>📈 The 365-Day GitHub Commitment</h4>
+            <div class="gh-hl">
+              <strong>Month 1:</strong> Account + Student Pack + 5 repos + Profile README<br/>
+              <strong>Month 3:</strong> 90-day streak + 10+ repos + Pages portfolio live<br/>
+              <strong>Month 6:</strong> First open-source PR merged — milestone to celebrate<br/>
+              <strong>Year 1:</strong> 200+ commits + portfolio site + Hacktoberfest badge<br/>
+              <strong>Year 2+:</strong> 500+ commits + GSoC application + recruiters finding <em>you</em>
+            </div>
+            <div class="gh-tags" style="margin-top:1.2rem">
+              <span class="gh-tag">Version Control = Workplace Skill</span>
+              <span class="gh-tag">90% of companies use Git</span>
+              <span class="gh-tag">Green squares = proof</span>
+              <span class="gh-tag">GSoC ₹5L stipend</span>
+              <span class="gh-tag">Copilot AI free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     ROADMAP SECTION
+══════════════════════════════════ -->
+<section class="roadmap-section" id="roadmap">
+  <div class="roadmap-inner">
+    <div class="reveal" style="text-align:center;margin-bottom:1rem">
+      <span class="section-eyebrow" style="background:var(--amber);color:var(--amber-d)">🗺️ Your Roadmap</span>
+      <h2 class="section-h" style="text-align:center">4 Years. 9 Platforms.<br/>A Clearer Path Forward.</h2>
+      <p class="section-sub" style="text-align:center;margin:0 auto">A semester-by-semester action plan designed for CSE students. Follow this and placement season becomes a choice, not a prayer.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="t-item">
+        <div class="t-dot" style="background:var(--rose-d)"></div>
+        <div class="t-badge">Semester 1 – 2 · Year One</div>
+        <h4>🌱 Plant Every Seed</h4>
+        <p>Create accounts on all 9 platforms. Complete Google Skills AI Essentials + Microsoft Learn Azure Fundamentals. Earn HackerRank Python Basic cert. Solve 30 LeetCode Easy problems. Set up GitHub with 5 repos. Activate Student Developer Pack.</p>
+        <div class="t-tags">
+          <span class="t-tag">All 9 accounts created</span>
+          <span class="t-tag">GitHub Student Pack</span>
+          <span class="t-tag">First Google Badge</span>
+          <span class="t-tag">30 LC Easy problems</span>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot" style="background:var(--sky-d)"></div>
+        <div class="t-badge">Semester 3 – 4 · Year Two</div>
+        <h4>⚡ Build Real Momentum</h4>
+        <p>Reach Codeforces Green (Pupil). CodeChef 3★. Attend every CodeChef Starters. Solve 100+ LeetCode problems. Get AWS Cloud Practitioner badge. IBM Cybersecurity cert. 90-day GitHub streak. First Hacktoberfest contribution.</p>
+        <div class="t-tags">
+          <span class="t-tag">CF Green Rating</span>
+          <span class="t-tag">CodeChef 3★</span>
+          <span class="t-tag">AWS Badge</span>
+          <span class="t-tag">90-day GitHub streak</span>
+          <span class="t-tag">Hacktoberfest</span>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot" style="background:var(--mint-d)"></div>
+        <div class="t-badge">Semester 5 – 6 · Year Three</div>
+        <h4>🚀 Accelerate Everything</h4>
+        <p>Codeforces Blue (Expert) — put it on your resume. LeetCode 200+ problems with medium mastery. AZ-900 Microsoft cert (discounted 50%). AtCoder Green. IBM virtual internship completed. GitHub Pages portfolio live. GSoC prep begins. LinkedIn 300+ connections.</p>
+        <div class="t-tags">
+          <span class="t-tag">CF Blue / Expert</span>
+          <span class="t-tag">AZ-900 Certified</span>
+          <span class="t-tag">Portfolio site live</span>
+          <span class="t-tag">IBM Internship cert</span>
+          <span class="t-tag">GSoC target org</span>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot" style="background:var(--lavender-d)"></div>
+        <div class="t-badge">Semester 7 – 8 · Final Year</div>
+        <h4>🏆 Harvest the Rewards</h4>
+        <p>LeetCode 300+ problems. Strong GitHub portfolio with FYP. Certifications visible on LinkedIn. Apply via company hiring contests on CodeChef/Unstop. ICPC application if interested. By placement season, you will have a clear story to tell — through your code, your certificates, and your consistency.</p>
+        <div class="t-tags">
+          <span class="t-tag">300+ LC problems</span>
+          <span class="t-tag">FYP on GitHub</span>
+          <span class="t-tag">5+ certs on LinkedIn</span>
+          <span class="t-tag">Placement-ready</span>
+          <span class="t-tag">GSoC / ICPC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FINAL MOTIVATION / CTA
+══════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <h2>A Good Time to Start<br/>is <em>Right Now.</em></h2>
+    <p>The second best time is right now. Open a tab. Create an account. Try one problem. Small, consistent steps taken today add up to something meaningful by the time you graduate.</p>
+    <div class="cta-links">
+      <a href="https://skills.google.com" target="_blank" class="cta-link">Google Skills →</a>
+      <a href="https://learn.microsoft.com" target="_blank" class="cta-link">Microsoft Learn →</a>
+      <a href="https://skillbuilder.aws" target="_blank" class="cta-link">AWS Builder →</a>
+      <a href="https://skillsbuild.org" target="_blank" class="cta-link">IBM Skills →</a>
+      <a href="https://leetcode.com" target="_blank" class="cta-link">LeetCode →</a>
+      <a href="https://codeforces.com" target="_blank" class="cta-link">Codeforces →</a>
+      <a href="https://codechef.com" target="_blank" class="cta-link">CodeChef →</a>
+      <a href="https://atcoder.jp" target="_blank" class="cta-link">AtCoder →</a>
+      <a href="https://github.com" target="_blank" class="cta-link">GitHub →</a>
+    </div>
+    <p class="cta-quote">"Your code is your voice. Write something worth listening to."</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     PERSONAL NOTE FROM BHUMIKA
+══════════════════════════════════ -->
+<section class="personal-note-section">
+  <div class="personal-note-inner reveal">
+    <div class="note-envelope">💌</div>
+    <h3 class="note-heading">A Note from Bhumika</h3>
+    <p class="note-body">
+      This is a humble effort to share what I know — and I'm genuinely open to learning more from you.
+      Every platform here, every step, every tip — it comes from a place of wanting to see you thrive, grow, and build a career that excites you.
+      If you have thoughts, suggestions, experiences to share, or anything at all — I'd love to hear from you. 🌸
+    </p>
+    <a href="mailto:thebhumika@zohomail.in" class="note-email-btn">
+      <span class="note-email-icon">✉️</span>
+      Write to Bhumika at <strong>thebhumika@zohomail.in</strong>
+    </a>
+    <p class="note-tagline">"Teaching is the one profession that creates all other professions." — Let's keep learning, together.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer>
+  <div class="ft-logo">Code<span style="color:var(--rose-d)">_</span>Compete<span style="color:var(--mint-d)">_</span>Conquer</div>
+  <p>Built with 💙 for CSE students who are ready to level up</p>
+  <p style="margin-top:.4rem;opacity:.5">All platforms listed are free for students · Total cost: ₹0 · 2026</p>
+</footer>
+
+<!-- ══════════════════════════════════
+     VIDEO MODAL
+══════════════════════════════════ -->
+<div class="yt-modal" id="ytModal">
+  <div class="yt-modal-backdrop" onclick="closeModal()"></div>
+  <div class="yt-modal-box">
+    <button class="yt-modal-close" onclick="closeModal()">✕</button>
+    <div class="yt-modal-ratio" id="modalContent">
+      <!-- iframe injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCRIPTS
+══════════════════════════════════ -->
+<script>
+/* ─── Video: open YouTube in new tab (iframe embeds are blocked by YouTube in most local/hosted environments) ─── */
+function openYT(videoId) {
+  window.open('https://www.youtube.com/watch?v=' + videoId, '_blank', 'noopener,noreferrer');
+}
+function closeModal() {}  /* kept for safety, modal no longer used */
+
+/* ─── Expand / Collapse ─── */
+function toggleExpand(btn, boxId) {
+  const box = document.getElementById(boxId);
+  const isOpen = box.classList.contains('open');
+  box.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('.arr').textContent = isOpen ? '↓' : '↑';
+  const txt = btn.childNodes[0];
+  if (txt && txt.nodeType === 3) txt.textContent = isOpen ? 'Deep Dive ' : 'Close Details ';
+}
+
+function toggleGhExpand(btn, boxId) {
+  const box = document.getElementById(boxId);
+  const isOpen = box.classList.contains('open');
+  box.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('.arr').textContent = isOpen ? '↓' : '↑';
+  const txt = btn.childNodes[0];
+  if (txt && txt.nodeType === 3) txt.textContent = isOpen ? 'Unlock the Full GitHub Guide ' : 'Close GitHub Guide ';
+}
+
+/* ─── Scroll Reveal ─── */
+const reveals = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('vis'), i * 60);
+      ro.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => ro.observe(el));
+
+/* ─── Active Nav Pills ─── */
+const sects = document.querySelectorAll('section[id]');
+const pills = document.querySelectorAll('.nav-pill');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sects.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  pills.forEach(p => {
+    const match = p.getAttribute('href') === '#' + cur;
+    p.classList.toggle('active', match);
+  });
+}, { passive: true });
+
+/* ─── GitHub Contribution Grid ─── */
+(function buildGrid() {
+  const grid = document.getElementById('contrib-grid');
+  if (!grid) return;
+  const levels = [0,0,0,1,1,2,2,2,3,3,3,4];
+  const colors = {
+    0:'rgba(255,255,255,.04)',1:'#0e4429',2:'#006d32',3:'#26a641',4:'#39d353'
+  };
+  for (let i = 0; i < 84; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cg-cell';
+    const l = i % 7 === 0 ? 0 : levels[Math.floor(Math.random() * levels.length)];
+    cell.style.background = colors[l];
+    cell.style.opacity = l === 0 ? '.3' : '1';
+    grid.appendChild(cell);
+  }
+})();
+
+/* ─── Smooth link active state on click ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', () => {
+    pills.forEach(p => p.classList.remove('active'));
+  });
+});
+</script>
+</body>
+</html>
